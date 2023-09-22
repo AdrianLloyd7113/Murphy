@@ -10,6 +10,10 @@ public class MurphyObject {
         return name;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
     public String toHTML(){
         return "<p>" + name + "</p>";
     }

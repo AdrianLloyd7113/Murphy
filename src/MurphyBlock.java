@@ -3,7 +3,7 @@ public class MurphyBlock extends MurphyObject {
     private double w;
     private double h;
     private String data = "";
-    private String style = "";
+    String style = "";
 
     MurphyBlock(String name) {
         super(name);
@@ -14,7 +14,7 @@ public class MurphyBlock extends MurphyObject {
     }
 
     void giveBG(int r, int g, int b){
-        style += "background-color: rgb(" + r + ", " +  g + ", " + b + ")\n";
+        style += "background-color: rgb(" + r + ", " +  g + ", " + b + ");\n";
     }
 
     void giveDimensions(int w, int h){

@@ -4,4 +4,8 @@ public class TextBlock extends MurphyBlock {
         super(name);
     }
 
+    public void setTextSize(int size){
+        super.style += "font-size: " + size + "px;\n";
+    }
+
 }
