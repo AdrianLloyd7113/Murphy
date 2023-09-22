@@ -1,8 +1,8 @@
-public class TercetObject {
+public class MurphyObject {
 
     private String name;
 
-    TercetObject(String name){
+    MurphyObject(String name){
         this.name = name;
     }
 

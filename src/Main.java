@@ -6,16 +6,17 @@ import java.util.*;
 
 public class Main {
 
-    static String src;
+    static String src = ";\n";
     static String html = "";
     static String css = "";
 
-    static ArrayList<TercetObject> obj = new ArrayList<TercetObject>();
+    static ArrayList<MurphyObject> obj = new ArrayList<MurphyObject>();
     static HashMap<String, Integer> objMap = new HashMap<String, Integer>();
 
     public static void main(String[] args) {
         readFile();
         parse();
+        genObjs();
         compile();
     }
 
@@ -49,23 +50,28 @@ public class Main {
     private static void readToken(String token) {
         System.out.println(token);
         String[] terms = token.split(" ");
-        String[] regDiv = token.split("// ");
-        if (terms[0].equals("text")){
-            html += "<p>" + regDiv[1] + "</p>\n";
-        }else if (terms[0].equals("declare")){
+        String[] regDiv = token.split(">> ");
+        if (terms[0].equals("display")){
+            if (terms[1].equals("Text")){
+                html += "<p>" + regDiv[1] + "</p>\n";
+            }
+        }else if (terms[0].equals("create")){
             if (terms[1].equals("TextBlock")){
                 TextBlock toAdd = new TextBlock(terms[2]);
                 String[] blockDiv = token.split(":");
 
-                String[] atts = blockDiv[1].split(",");
+                String[] atts = blockDiv[1].split("//");
 
                 for (int i = 0; i < atts.length; i++){
                     System.out.println("attribute");
                     String[] attTokens = atts[i].split(" ");
                     System.out.println(attTokens[0]);
-                    if (attTokens[0].equals("text")){
-                        String[] attDiv = atts[i].split("// ");
-                        toAdd.addText(attDiv[1]);
+                    if (attTokens[0].equals("display")){
+                        if (attTokens[1].equals("Text")){
+                            System.out.println("FOund text");
+                            String[] attDiv = atts[i].split(">> ");
+                            toAdd.addText(attDiv[1]);
+                        }
                     } else if (attTokens[0].equals("bgcolor")){
                         toAdd.giveBG(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]), Integer.parseInt(attTokens[3]));
                     }
@@ -75,11 +81,12 @@ public class Main {
                 objMap.put(terms[2], obj.size() - 1);
             }
         }
-        genObjs();
     }
 
     private static void genObjs() {
+        System.out.println("\n\nOBJECTS: \n");
         for (int i = 0; i < obj.size(); i++){
+            System.out.println("obj number" + i);
             html += obj.get(i).toHTML() + "\n";
             css += obj.get(i).toCSS() + "\n";
         }
@@ -92,6 +99,7 @@ public class Main {
         }
 
         html = html.replace("\n", "");
+        html = html.replace("  ", "");
 
         //HTML Generation
 

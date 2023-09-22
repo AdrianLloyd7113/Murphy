@@ -1,11 +1,11 @@
-public class TercetBlock extends TercetObject{
+public class MurphyBlock extends MurphyObject {
 
     private double w;
     private double h;
     private String data = "";
     private String style = "";
 
-    TercetBlock(String name) {
+    MurphyBlock(String name) {
         super(name);
     }
 
@@ -24,7 +24,9 @@ public class TercetBlock extends TercetObject{
     public String toHTML(){
         String html = "<div id='" + super.getName() + "'>";
 
-        if (data != null){
+        System.out.println("GENNED HTML");
+
+        if (data != ""){
             html += "<p>" + data + "</p>";
         }
 
