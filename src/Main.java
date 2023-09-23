@@ -10,6 +10,7 @@ public class Main {
     static String html = "";
     static String css = "";
 
+    static int objIndex = 0;
     static String currStructName = "";
 
     static ArrayList<MurphyStructure> structures = new ArrayList<MurphyStructure>();
@@ -20,7 +21,6 @@ public class Main {
     public static void main(String[] args) {
         readFile();
         parse();
-        genObjs();
         compile();
     }
 
@@ -63,7 +63,8 @@ public class Main {
             if (terms[1].equals("Visible") && terms[2].equals("Structure")){
                 currStructName = terms[3];
             }
-        }else if (terms[0].equals("display")){
+        }
+        else if (terms[0].equals("display")){
             if (terms[1].equals("Text")){
 
                 String toDisplay = regDiv[1];
@@ -77,6 +78,9 @@ public class Main {
                 }
 
                 html += "<p>" + toDisplay + "</p>\n";
+            }
+            else if (terms[1].equals("Image")){
+                html += "<img src='" + regDiv[1] + "' alt=" + regDiv[2] + ">";
             }
         }else if (terms[0].equals("create")) {
             if (terms[1].equals("TextBlock")) {
@@ -110,27 +114,52 @@ public class Main {
                 obj.add(toAdd);
                 objMap.put(terms[2], obj.size() - 1);
             }
+            else if (terms[1].equals("ImageBlock")){
+                ImageBlock toAdd = new ImageBlock(terms[2]);
+                String[] blockDiv = token.split(":");
+                String[] atts = blockDiv[1].split("//");
+
+                for (int i = 0; i < atts.length; i++) {
+                    String attribute = atts[i].trim();
+                    System.out.println("attribute");
+
+                    String[] attTokens = attribute.split(" ");
+                    System.out.println(attTokens[0]);
+
+                    if (attTokens[0].equals("source")){
+                        toAdd.giveSrc(attTokens[2]);
+                    }
+                }
+
+                obj.add(toAdd);
+                objMap.put(terms[2], obj.size() - 1);
+            }
         }else if (terms[0].equals("define")){
             if (terms[1].equals("Integer") && terms[3].equals(">>")){
                 MurphyInteger newInt = new MurphyInteger(terms[2], Integer.parseInt(terms[4]));
                 obj.add(newInt);
                 objMap.put(terms[2], obj.size() - 1);
             }
-        }else if (terms[0].equals("END") && terms[1].equals(currStructName)){
+        }else if (terms[0].equals("##")){
+            System.out.println("Comment found, skipping...");
+        }
+        else if (terms[0].equals("END") && terms[1].equals(currStructName)){
             MurphyStructure struct = new MurphyStructure(currStructName, obj, objMap);
             structures.add(struct);
 
             currStructName = "";
         }
+        genObjs();
     }
 
     private static void genObjs() {
-        System.out.println("\n\nOBJECTS: \n");
-        for (int i = 0; i < obj.size(); i++){
+        System.out.println("\n\nNEW OBJECTS: \n");
+        for (int i = objIndex; i < obj.size(); i++){
             System.out.println("obj number" + i);
             html += obj.get(i).toHTML() + "\n";
             css += obj.get(i).toCSS() + "\n";
         }
+        objIndex = obj.size();
     }
 
     public static void compile(){

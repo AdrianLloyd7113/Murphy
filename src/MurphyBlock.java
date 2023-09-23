@@ -3,6 +3,7 @@ public class MurphyBlock extends MurphyObject {
     private double w;
     private double h;
     private String data = "";
+    String imgSrc = "";
     String style = "";
 
     MurphyBlock(String name) {
@@ -28,6 +29,10 @@ public class MurphyBlock extends MurphyObject {
 
         if (data != ""){
             html += "<p>" + data + "</p>";
+        }
+
+        if (imgSrc != ""){
+            html += "<img src='" + imgSrc + "' alt=''>";
         }
 
         html += "</div>";
