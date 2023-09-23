@@ -1,10 +1,14 @@
 public class MurphyBlock extends MurphyObject {
 
+    private String html;
+    private String css;
     private double w;
     private double h;
     private String data = "";
     String imgSrc = "";
     String style = "";
+
+    int type = 0;
 
     MurphyBlock(String name) {
         super(name);
@@ -18,14 +22,19 @@ public class MurphyBlock extends MurphyObject {
         style += "background-color: rgb(" + r + ", " +  g + ", " + b + ");\n";
     }
 
-    void giveDimensions(int w, int h){
+    void giveShape(int w, int h){
 
+        style += "width: " + w + ";\n";
+        style += "height: " + h + ";\n";
+
+    }
+
+    public int getType() {
+        return type;
     }
 
     public String toHTML(){
         String html = "<div id='" + super.getName() + "'>";
-
-        System.out.println("GENNED HTML");
 
         if (data != ""){
             html += "<p>" + data + "</p>";
@@ -37,18 +46,26 @@ public class MurphyBlock extends MurphyObject {
 
         html += "</div>";
 
+        this.html = html;
+        return html;
+    }
+
+    public String getHtml() {
         return html;
     }
 
     public String toCSS(){
         String css = "#" + getName() + " {\n";
-
         if (style != null){
             css += style;
         }
-
         css += "}";
+
+        this.css = css;
         return css;
     }
 
+    public String getCSS() {
+        return css;
+    }
 }

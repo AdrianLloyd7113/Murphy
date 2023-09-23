@@ -15,7 +15,7 @@ public class MurphyObject {
     }
 
     public String toHTML(){
-        return "<p>" + name + "</p>";
+        return "";
     }
     public String toCSS(){
         return "";

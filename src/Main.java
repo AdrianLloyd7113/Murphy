@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Main {
 
+    static String htmlPath = "index.html";
     static String src = ";\n";
     static String html = "";
     static String css = "";
@@ -19,15 +20,28 @@ public class Main {
     static HashMap<String, Integer> objMap = new HashMap<String, Integer>();
 
     public static void main(String[] args) {
-        readFile();
+        System.out.println("Welcome to Murphy Compiler. Enter the number of source files, then provide source paths...");
+
+        acceptFiles();
+
         parse();
         compile();
+
+        System.out.println("\n\nMurphy is a good boy.\nWeb files successfully compiled.");
     }
 
-    public static void readFile(){
+    public static void acceptFiles(){
+        Scanner scanner = new Scanner(System.in);
+        int numberToAccept = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < numberToAccept; i++){
+            readFile(scanner.nextLine());
+        }
+    }
+
+    public static void readFile(String filePath){
         try {
             Scanner inFile = new Scanner(System.in);
-            File source = new File(inFile.nextLine());
+            File source = new File(filePath);
             Scanner scanner = new Scanner(source);
 
             while (scanner.hasNextLine()) {
@@ -42,20 +56,16 @@ public class Main {
             e.printStackTrace();
         }
 
-
-
     }
 
     public static void parse(){
         String[] tokens = src.split(";");
         for (int i = 0; i < tokens.length; i++){
             readToken(tokens[i]);
-            System.out.println(i);
         }
     }
 
     private static void readToken(String token) {
-        System.out.println(token);
         token = token.trim();
         String[] terms = token.split(" ");
         String[] regDiv = token.split(">> ");
@@ -90,14 +100,11 @@ public class Main {
 
                 for (int i = 0; i < atts.length; i++) {
                     String attribute = atts[i].trim();
-                    System.out.println("attribute");
 
                     String[] attTokens = attribute.split(" ");
-                    System.out.println(attTokens[0]);
 
                     if (attTokens[0].equals("display")) {
                         if (attTokens[1].equals("Text")) {
-                            System.out.println("Found text");
                             String[] attDiv = attribute.split(">> ");
                             toAdd.addText(attDiv[1]);
                         }
@@ -108,6 +115,8 @@ public class Main {
                     } else if (attTokens[0].equals("copy-of") && attTokens[1].equals("<<")) {
                         toAdd = (TextBlock) obj.get(objMap.get(attTokens[2]));
                         toAdd.setName(terms[2]);
+                    } else if (attTokens[0].equals("shape")){
+                        toAdd.giveShape(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]));
                     }
                 }
 
@@ -121,13 +130,13 @@ public class Main {
 
                 for (int i = 0; i < atts.length; i++) {
                     String attribute = atts[i].trim();
-                    System.out.println("attribute");
 
                     String[] attTokens = attribute.split(" ");
-                    System.out.println(attTokens[0]);
 
                     if (attTokens[0].equals("source")){
                         toAdd.giveSrc(attTokens[2]);
+                    } else if (attTokens[0].equals("shape")){
+                        toAdd.giveShape(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]));
                     }
                 }
 
@@ -141,21 +150,79 @@ public class Main {
                 objMap.put(terms[2], obj.size() - 1);
             }
         }else if (terms[0].equals("##")){
-            System.out.println("Comment found, skipping...");
+
+        }
+        else if (terms[0].equals("modify")){
+            MurphyBlock toMod = new MurphyBlock("");
+            String[] blockDiv = token.split(":");
+            String[] atts = blockDiv[1].split("//");
+
+            int type = ((MurphyBlock) obj.get(objMap.get(terms[1]))).getType();
+
+            if (type == 1){
+                TextBlock textMod = (TextBlock) obj.get(objMap.get(terms[1]));
+
+                for (int i = 0; i < atts.length; i++) {
+                    String attribute = atts[i].trim();
+
+                    String[] attTokens = attribute.split(" ");
+
+                    if (attTokens[0].equals("display")) {
+                        if (attTokens[1].equals("Text")) {
+                            String[] attDiv = attribute.split(">> ");
+                            textMod.addText(attDiv[1]);
+                        }
+                    } else if (attTokens[0].equals("bg-color") && attTokens[1].equals(">>")) {
+                        textMod.giveBG(Integer.parseInt(attTokens[2]), Integer.parseInt(attTokens[3]), Integer.parseInt(attTokens[4]));
+                    } else if (attTokens[0].equals("copy-of") && attTokens[1].equals("<<")) {
+                        textMod = (TextBlock) obj.get(objMap.get(attTokens[2]));
+                        textMod.setName(terms[2]);
+                    } else if (attTokens[0].equals("shape")){
+                        textMod.giveShape(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]));
+                    }
+                }
+                toMod = textMod;
+            }else if (type == 2){
+                ImageBlock imgMod = (ImageBlock) obj.get(objMap.get(terms[1]));
+
+                for (int i = 0; i < atts.length; i++) {
+                    String attribute = atts[i].trim();
+
+                    String[] attTokens = attribute.split(" ");
+
+                    if (attTokens[0].equals("source")){
+                        imgMod.giveSrc(attTokens[2]);
+                    } else if (attTokens[0].equals("shape")){
+                        imgMod.giveShape(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]));
+                    }
+                }
+
+                toMod = imgMod;
+            }
+
+            obj.set(objMap.get(terms[1]), toMod);
+
+            String oldHTML, oldCSS;
+            oldHTML = toMod.getHtml();
+            oldCSS = toMod.getCSS();
+
+            html = html.replace(oldHTML, toMod.getHtml());
+            css = css.replace(oldCSS, toMod.toCSS());
+
         }
         else if (terms[0].equals("END") && terms[1].equals(currStructName)){
             MurphyStructure struct = new MurphyStructure(currStructName, obj, objMap);
             structures.add(struct);
 
             currStructName = "";
+        }else{
+            System.out.println("Murphy encountered a syntax error when compiling.\nUNKNOWN COMMAND: " + terms[0]);
         }
         genObjs();
     }
 
     private static void genObjs() {
-        System.out.println("\n\nNEW OBJECTS: \n");
         for (int i = objIndex; i < obj.size(); i++){
-            System.out.println("obj number" + i);
             html += obj.get(i).toHTML() + "\n";
             css += obj.get(i).toCSS() + "\n";
         }
