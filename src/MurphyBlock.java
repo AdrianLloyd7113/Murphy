@@ -24,8 +24,7 @@ public class MurphyBlock extends MurphyObject {
 
     void giveShape(int w, int h){
 
-        style += "width: " + w + ";\n";
-        style += "height: " + h + ";\n";
+        style += "width: " + w + ";\n" + "height: " + h + ";\n" + "max-width: " + w + ";\n" + "max-height: " + h + ";\n";
 
     }
 

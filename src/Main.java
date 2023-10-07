@@ -112,7 +112,7 @@ public class Main {
                         toAdd.giveBG(Integer.parseInt(attTokens[2]), Integer.parseInt(attTokens[3]), Integer.parseInt(attTokens[4]));
                     } else if (attTokens[0].equals("text-size")) {
                         toAdd.setTextSize(Integer.parseInt(attTokens[2]));
-                    } else if (attTokens[0].equals("copy-of") && attTokens[1].equals("<<")) {
+                    } else if (attTokens[0].equals("new") && attTokens[1].equals("<<")) {
                         toAdd = (TextBlock) obj.get(objMap.get(attTokens[2]));
                         toAdd.setName(terms[2]);
                     } else if (attTokens[0].equals("shape")){
@@ -174,7 +174,7 @@ public class Main {
                         }
                     } else if (attTokens[0].equals("bg-color") && attTokens[1].equals(">>")) {
                         textMod.giveBG(Integer.parseInt(attTokens[2]), Integer.parseInt(attTokens[3]), Integer.parseInt(attTokens[4]));
-                    } else if (attTokens[0].equals("copy-of") && attTokens[1].equals("<<")) {
+                    } else if (attTokens[0].equals("new") && attTokens[1].equals("<<")) {
                         textMod = (TextBlock) obj.get(objMap.get(attTokens[2]));
                         textMod.setName(terms[2]);
                     } else if (attTokens[0].equals("shape")){

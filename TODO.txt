@@ -1,0 +1,12 @@
+TODO:
+    1. Dynamic file generation -- store HTML and CSS output in the specified project folder
+    2. Allow folder compilation -- search folders for .murph files to compile all at once
+        2.5. Compile multiple structures from the same file
+    3. Fix image size issues
+    4. Image and text alignment
+    5. Font families and weights
+    6. Arrays
+        6.5. Ammending Arrays
+    7. Invisible Structures
+    9. Interactive Blocks -- temporarily use JS
+    8. FETCH
