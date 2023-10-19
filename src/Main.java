@@ -272,7 +272,7 @@ public class Main {
         //HTML Generation
 
         try {
-            File htmlFile = new File("index.html");
+            File htmlFile = new File("examples/index.html");
             if (htmlFile.createNewFile()) {
                 System.out.println("HTML generated: " + htmlFile.getName());
             } else {
@@ -284,7 +284,7 @@ public class Main {
         }
 
         try {
-            FileWriter htmlWriter = new FileWriter("index.html");
+            FileWriter htmlWriter = new FileWriter("examples/index.html");
             htmlWriter.write(html);
             htmlWriter.close();
             System.out.println("Successfully wrote to the file.");
@@ -296,7 +296,7 @@ public class Main {
         //CSS Generation
 
         try {
-            File htmlFile = new File("main.css");
+            File htmlFile = new File("examples/main.css");
             if (htmlFile.createNewFile()) {
                 System.out.println("CSS generated: " + htmlFile.getName());
             } else {
@@ -308,7 +308,7 @@ public class Main {
         }
 
         try {
-            FileWriter htmlWriter = new FileWriter("main.css");
+            FileWriter htmlWriter = new FileWriter("examples/main.css");
             htmlWriter.write(css);
             htmlWriter.close();
             System.out.println("Successfully wrote to the file.");

@@ -1,0 +1,13 @@
+BEGIN Visual Structure HelloWorld;
+PAGE-STYLE : bg-color >> 255 0 0 //; 
+
+    create TextBlock block :
+        bg-color >> 255 255 255//
+        shape 200 200//
+        content Text >> Hello!//
+    ;
+
+    create TextBlock block2 : new << block//;
+    modify block2 : content Text >> Goodbye!//;
+
+END HelloWorld;
