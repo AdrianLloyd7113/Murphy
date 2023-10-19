@@ -220,7 +220,7 @@ public class Main {
             oldHTML = toMod.getHtml();
             oldCSS = toMod.getCSS();
 
-            html = html.replace(oldHTML, toMod.getHtml());
+            html = html.replace(oldHTML, toMod.toHTML());
             css = css.replace(oldCSS, toMod.toCSS());
 
         }

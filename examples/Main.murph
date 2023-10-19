@@ -5,6 +5,10 @@ PAGE-STYLE : bg-color >> 255 0 0 //;
         bg-color >> 255 255 255//
         shape 200 200//
         content Text >> Hello!//
+        align center//
+        align-content center//
+        font Impact//
+        text-size >> 36//
     ;
 
     create TextBlock block2 : new << block//;

@@ -4,6 +4,10 @@ width: 200;
 height: 200;
 max-width: 200;
 max-height: 200;
+margin: auto;
+text-align: center;
+font-family: Impact;
+font-size: 36px;
 }
 #block2 {
 background-color: rgb(255, 255, 255);
@@ -11,4 +15,8 @@ width: 200;
 height: 200;
 max-width: 200;
 max-height: 200;
+margin: auto;
+text-align: center;
+font-family: Impact;
+font-size: 36px;
 }
