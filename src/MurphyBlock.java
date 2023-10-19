@@ -28,6 +28,12 @@ public class MurphyBlock extends MurphyObject {
 
     }
 
+    void giveBlockAlign(String align){
+        if (align.equals("center")){
+            style += "margin: auto;\n";
+        }
+    }
+
     public int getType() {
         return type;
     }

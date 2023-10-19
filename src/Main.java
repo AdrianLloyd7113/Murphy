@@ -11,6 +11,8 @@ public class Main {
     static String html = "";
     static String css = "";
 
+    static String bodyStyle = "";
+
     static int objIndex = 0;
     static String currStructName = "";
 
@@ -94,7 +96,7 @@ public class Main {
             }
         }else if (terms[0].equals("create")) {
             if (terms[1].equals("TextBlock")) {
-                TextBlock toAdd = new TextBlock(terms[2]);
+                TextBlock toAdd = new TextBlock(terms[2].replace(":", ""));
                 String[] blockDiv = token.split(":");
                 String[] atts = blockDiv[1].split("//");
 
@@ -103,7 +105,7 @@ public class Main {
 
                     String[] attTokens = attribute.split(" ");
 
-                    if (attTokens[0].equals("display")) {
+                    if (attTokens[0].equals("content")) {
                         if (attTokens[1].equals("Text")) {
                             String[] attDiv = attribute.split(">> ");
                             toAdd.addText(attDiv[1]);
@@ -117,6 +119,12 @@ public class Main {
                         toAdd.setName(terms[2]);
                     } else if (attTokens[0].equals("shape")){
                         toAdd.giveShape(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]));
+                    } else if (attTokens[0].equals("font")){
+                        toAdd.giveFont("" + attTokens[1]);
+                    } else if (attTokens[0].equals("align-content")){
+                        toAdd.giveTextAlign("" + attTokens[1]);
+                    } else if (attTokens[0].equals("align")){
+                        toAdd.giveBlockAlign(attTokens[1]);
                     }
                 }
 
@@ -167,9 +175,12 @@ public class Main {
 
                     String[] attTokens = attribute.split(" ");
 
-                    if (attTokens[0].equals("display")) {
+                    if (attTokens[0].equals("content")) {
+
                         if (attTokens[1].equals("Text")) {
+                            System.out.println("Got here");
                             String[] attDiv = attribute.split(">> ");
+                            System.out.println(attDiv[1]);
                             textMod.addText(attDiv[1]);
                         }
                     } else if (attTokens[0].equals("bg-color") && attTokens[1].equals(">>")) {
@@ -201,6 +212,9 @@ public class Main {
             }
 
             obj.set(objMap.get(terms[1]), toMod);
+            System.out.println(toMod.getHtml());
+
+            //TODO: Figure out why text isn't modifying
 
             String oldHTML, oldCSS;
             oldHTML = toMod.getHtml();
@@ -209,6 +223,22 @@ public class Main {
             html = html.replace(oldHTML, toMod.getHtml());
             css = css.replace(oldCSS, toMod.toCSS());
 
+        }
+        else if (terms[0].equals("PAGE-STYLE")){
+            bodyStyle = "";
+            String[] blockDiv = token.split(":");
+            String[] atts = blockDiv[1].split("//");
+
+            for (int i = 0; i < atts.length; i++) {
+                String attribute = atts[i].trim();
+                String[] attTokens = attribute.split(" ");
+
+                System.out.println("token " + attTokens.length);
+                System.out.println(attTokens[0]);
+                if (attTokens[0].equals("bg-color")){
+                    bodyStyle += "background-color:rgb(" + attTokens[2] + ", " +  attTokens[3] + ", " + attTokens[4] + ");";
+                }
+            }
         }
         else if (terms[0].equals("END") && terms[1].equals(currStructName)){
             MurphyStructure struct = new MurphyStructure(currStructName, obj, objMap);
@@ -237,6 +267,7 @@ public class Main {
 
         html = html.replace("\n", "");
         html = html.replace("  ", "");
+        html = "<body style='" + bodyStyle + "'>" + html + "</body>";
 
         //HTML Generation
 
