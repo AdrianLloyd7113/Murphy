@@ -1,22 +1,58 @@
-#block {
+#nameBlock {
 background-color: rgb(255, 255, 255);
-width: 200;
-height: 200;
-max-width: 200;
-max-height: 200;
+width: 600;
+height: 100;
+max-width: 600;
+max-height: 100;
 margin: auto;
 text-align: center;
-font-family: Impact;
 font-size: 36px;
+font-family:  Impact;
 }
-#block2 {
-background-color: rgb(255, 255, 255);
-width: 200;
-height: 200;
-max-width: 200;
-max-height: 200;
+#photo {
 margin: auto;
+}
+#intro {
+background-color: rgb(250, 225, 157);
+width: 500;
+height: 200;
+max-width: 500;
+max-height: 200;
+font-family:  Trebuchet MS;
+font-size: 18px;
 text-align: center;
-font-family: Impact;
-font-size: 36px;
+margin: auto;
+}
+#second {
+background-color: rgb(250, 225, 157);
+width: 500;
+height: 200;
+max-width: 500;
+max-height: 200;
+font-family:  Trebuchet MS;
+font-size: 18px;
+text-align: center;
+margin: auto;
+}
+#third {
+background-color: rgb(250, 225, 157);
+width: 500;
+height: 200;
+max-width: 500;
+max-height: 200;
+font-family:  Trebuchet MS;
+font-size: 18px;
+text-align: center;
+margin: auto;
+}
+#fourth {
+background-color: rgb(250, 225, 157);
+width: 500;
+height: 200;
+max-width: 500;
+max-height: 200;
+font-family:  Trebuchet MS;
+font-size: 18px;
+text-align: center;
+margin: auto;
 }

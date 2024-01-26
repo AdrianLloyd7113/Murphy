@@ -42,7 +42,7 @@ public class MurphyBlock extends MurphyObject {
         String html = "<div id='" + super.getName() + "'>";
 
         if (data != ""){
-            html += "<p>" + data + "</p>";
+            html += "<p>" + data.replace("'", "&#39;") + "</p>";
         }
 
         if (imgSrc != ""){

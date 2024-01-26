@@ -89,7 +89,7 @@ public class Main {
                     }
                 }
 
-                html += "<p>" + toDisplay + "</p>\n";
+                html += "<p>" + toDisplay.replace("'", "&#39;") + "</p>\n";
             }
             else if (terms[1].equals("Image")){
                 html += "<img src='" + regDiv[1] + "' alt=" + regDiv[2] + ">";
@@ -108,7 +108,7 @@ public class Main {
                     if (attTokens[0].equals("content")) {
                         if (attTokens[1].equals("Text")) {
                             String[] attDiv = attribute.split(">> ");
-                            toAdd.addText(attDiv[1]);
+                            toAdd.addText(attDiv[1].replace("'", "&#39;"));
                         }
                     } else if (attTokens[0].equals("bg-color") && attTokens[1].equals(">>")) {
                         toAdd.giveBG(Integer.parseInt(attTokens[2]), Integer.parseInt(attTokens[3]), Integer.parseInt(attTokens[4]));
@@ -120,7 +120,7 @@ public class Main {
                     } else if (attTokens[0].equals("shape")){
                         toAdd.giveShape(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]));
                     } else if (attTokens[0].equals("font")){
-                        toAdd.giveFont("" + attTokens[1]);
+                        toAdd.giveFont(attribute.split(">>")[1]);
                     } else if (attTokens[0].equals("align-content")){
                         toAdd.giveTextAlign("" + attTokens[1]);
                     } else if (attTokens[0].equals("align")){
@@ -145,6 +145,8 @@ public class Main {
                         toAdd.giveSrc(attTokens[2]);
                     } else if (attTokens[0].equals("shape")){
                         toAdd.giveShape(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]));
+                    } else if (attTokens[0].equals("align")){
+                        toAdd.giveBlockAlign(attTokens[1]);
                     }
                 }
 
@@ -181,7 +183,7 @@ public class Main {
                             System.out.println("Got here");
                             String[] attDiv = attribute.split(">> ");
                             System.out.println(attDiv[1]);
-                            textMod.addText(attDiv[1]);
+                            textMod.addText(attDiv[1].replace("'", "&#39;"));
                         }
                     } else if (attTokens[0].equals("bg-color") && attTokens[1].equals(">>")) {
                         textMod.giveBG(Integer.parseInt(attTokens[2]), Integer.parseInt(attTokens[3]), Integer.parseInt(attTokens[4]));
@@ -190,6 +192,12 @@ public class Main {
                         textMod.setName(terms[2]);
                     } else if (attTokens[0].equals("shape")){
                         textMod.giveShape(Integer.parseInt(attTokens[1]), Integer.parseInt(attTokens[2]));
+                    } else if (attTokens[0].equals("location")){
+                        if (attTokens[1].equals("relative")){
+                            //TODO: this
+                        }else if (attTokens[1].equals("exactly")){
+
+                        }
                     }
                 }
                 toMod = textMod;
@@ -262,7 +270,8 @@ public class Main {
     public static void compile(){
 
         if (!css.equals("")){
-            html += "<link rel=\"stylesheet\" href=\"main.css\">";
+            html += "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">\n" +
+                    "<link rel=\"stylesheet\" href=\"main.css\">";
         }
 
         html = html.replace("\n", "");

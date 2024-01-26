@@ -1,17 +1,40 @@
-BEGIN Visual Structure HelloWorld;
-PAGE-STYLE : bg-color >> 255 0 0 //; 
+## Defines the class as a Visible Structure (a web page).;
+BEGIN Visible Structure MainPage;
+PAGE-STYLE :
+  bg-color >> 97 255 152//
+;
+  create TextBlock nameBlock :
+    content Text >> Adrian Lloyd//
+    bg-color >> 255 255 255//
+    shape 600 100//
+    align center//
+    align-content center//
+    text-size << 36//
+    font >> Impact//
+  ;
+  create ImageBlock photo :
+    source >> adrian.png//
+    align center//
+  ;
+  create TextBlock intro :
+    content Text >> Hi! I’m Adrian. I’m a 20-year-old, third-year computer science major at Dalhousie University. I began learning to code at the age of 9, and I’ve been passionate about programming ever since. Over the years, I’ve been fortunate enough to pursue a number of individual and collaborative programming endeavours, and I’ve put this page together as a sort of home for them.//
+    bg-color >> 250 225 157//
+    shape 500 200//
+    font >> Trebuchet MS//
+    text-size << 18//
+    align-content center//
+    align center//
+   ;
+   create TextBlock second :
+    new << intro//
+   ;
+   modify second : content Text >> This is another paragraph!//;
 
-    create TextBlock block :
-        bg-color >> 255 255 255//
-        shape 200 200//
-        content Text >> Hello!//
-        align center//
-        align-content center//
-        font Impact//
-        text-size >> 36//
-    ;
+   create TextBlock third :
+    new << intro//
+   ;
+   create TextBlock fourth :
+    new << intro//
+   ;
 
-    create TextBlock block2 : new << block//;
-    modify block2 : content Text >> Goodbye!//;
-
-END HelloWorld;
+END MainPage;
